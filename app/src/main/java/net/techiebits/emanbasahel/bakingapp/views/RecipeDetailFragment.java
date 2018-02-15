@@ -1,4 +1,4 @@
-package net.techiebits.emanbasahel.bakingapp;
+package net.techiebits.emanbasahel.bakingapp.views;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.dummy.DummyContent;
 
 /**

@@ -1,4 +1,4 @@
-package net.techiebits.emanbasahel.bakingapp;
+package net.techiebits.emanbasahel.bakingapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import net.techiebits.emanbasahel.bakingapp.R;
 
 /**
  * An activity representing a single Recipe detail screen. This
