@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.techiebits.emanbasahel.bakingapp.R;
-import net.techiebits.emanbasahel.bakingapp.dummy.DummyContent;
+import net.techiebits.emanbasahel.bakingapp.helpers.DummyContent;
 
 /**
  * A fragment representing a single Recipe detail screen.

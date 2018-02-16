@@ -10,7 +10,7 @@ public class Ingredient {
 
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private Float quantity;
     @SerializedName("measure")
     @Expose
     private String measure;
@@ -18,11 +18,11 @@ public class Ingredient {
     @Expose
     private String ingredient;
 
-    public Integer getQuantity() {
+    public Float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Float quantity) {
         this.quantity = quantity;
     }
 
