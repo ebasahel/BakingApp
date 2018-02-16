@@ -1,5 +1,7 @@
 package net.techiebits.emanbasahel.bakingapp.views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -69,19 +71,38 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        //region parse json array to List using Gson
         Gson gson = new Gson();
         @SuppressWarnings("serial")
         Type collectionType = new TypeToken<List<RecipesModel>>() {}.getType();
         List<RecipesModel> recipesModels = gson.fromJson(readJSONFile(), collectionType);
         assertEquals(4, recipesModels.size());
+        //endregion
+
         recyclerView.setAdapter(new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(RecipesModel itemRecipe) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, itemRecipe.getId().toString());
+                    RecipeDetailFragment fragment = new RecipeDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.recipe_detail_container, fragment)
+                            .commit();
+                } else {
 
+                    Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
+                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, itemRecipe.getId().toString());
+
+                    startActivity(intent);
+                }
             }
         }, recipesModels));
     }
 
+    //region read JSON file from assets
+    //snippet from http://www.codexpedia.com/android/read-a-json-file-from-the-assets-folder-in-android/
     private String readJSONFile()
     {
         String json = null;
@@ -97,5 +118,5 @@ public class RecipeListActivity extends AppCompatActivity {
         }
         return json;
     }
-
+    //endregion
 }

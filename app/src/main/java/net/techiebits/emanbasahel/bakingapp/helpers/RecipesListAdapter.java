@@ -7,14 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
-import net.techiebits.emanbasahel.bakingapp.views.RecipeDetailActivity;
-import net.techiebits.emanbasahel.bakingapp.views.RecipeDetailFragment;
-import net.techiebits.emanbasahel.bakingapp.views.RecipeListActivity;
-
 import java.util.List;
 
 /**
@@ -62,17 +58,20 @@ public class RecipesListAdapter
     class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mIdView;
         final TextView mContentView;
+        final LinearLayout mLinearContainer;
 
         ViewHolder(View view) {
             super(view);
             mIdView = (TextView) view.findViewById(R.id.id_text);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
+
         }
 
         void bind(final RecipesModel recipesModel, final OnItemClickListener listener) {
-            mIdView.setText(recipesModel.getId());
+            mIdView.setText(recipesModel.getId().toString());
             mContentView.setText(recipesModel.getName());
-            mIdView.setOnClickListener(new View.OnClickListener() {
+            mLinearContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mListener.onItemClick(recipesModel);
