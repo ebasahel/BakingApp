@@ -4,11 +4,14 @@ package net.techiebits.emanbasahel.bakingapp.data;
  * Created by emanbasahel on 15/02/2018 AD.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RecipesModel {
+public class RecipesModel implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -28,6 +31,33 @@ public class RecipesModel {
     @SerializedName("image")
     @Expose
     private String image;
+
+    protected RecipesModel(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        if (in.readByte() == 0) {
+            servings = null;
+        } else {
+            servings = in.readInt();
+        }
+        image = in.readString();
+    }
+
+    public static final Creator<RecipesModel> CREATOR = new Creator<RecipesModel>() {
+        @Override
+        public RecipesModel createFromParcel(Parcel in) {
+            return new RecipesModel(in);
+        }
+
+        @Override
+        public RecipesModel[] newArray(int size) {
+            return new RecipesModel[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -77,4 +107,26 @@ public class RecipesModel {
         this.image = image;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(name);
+        if (servings == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(servings);
+        }
+        parcel.writeString(image);
+    }
 }

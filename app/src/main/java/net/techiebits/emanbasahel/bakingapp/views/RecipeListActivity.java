@@ -1,21 +1,22 @@
 package net.techiebits.emanbasahel.bakingapp.views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -48,15 +49,6 @@ public class RecipeListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         if (findViewById(R.id.recipe_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -70,6 +62,7 @@ public class RecipeListActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    //region handling list of Recipes
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         //region parse json array to List using Gson
         Gson gson = new Gson();
@@ -84,7 +77,7 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onItemClick(RecipesModel itemRecipe) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, itemRecipe.getId().toString());
+                    arguments.putParcelable(getString(R.string.title_argument_recipe),itemRecipe);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()
@@ -93,13 +86,13 @@ public class RecipeListActivity extends AppCompatActivity {
                 } else {
 
                     Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
-                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, itemRecipe.getId().toString());
-
+                    intent.putExtra(getString(R.string.title_argument_recipe), itemRecipe);
                     startActivity(intent);
                 }
             }
         }, recipesModels));
     }
+    //endregion
 
     //region read JSON file from assets
     //snippet from http://www.codexpedia.com/android/read-a-json-file-from-the-assets-folder-in-android/
@@ -119,4 +112,6 @@ public class RecipeListActivity extends AppCompatActivity {
         return json;
     }
     //endregion
+
+
 }
