@@ -24,8 +24,8 @@ public class IngredientFragment extends Fragment {
     private RecyclerView recyclerIngredients;
     private RecyclerView.LayoutManager mLayoutManager;
     private IngredientsAdapter mAdapter;
-
     //endregion
+
     public IngredientFragment() {
         // Required empty public constructor
     }
@@ -43,6 +43,7 @@ public class IngredientFragment extends Fragment {
         recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter= new IngredientsAdapter(recipesModel);
+        recyclerIngredients.setLayoutManager(mLayoutManager);
         recyclerIngredients.setAdapter(mAdapter);
         //endregion
 
@@ -50,7 +51,7 @@ public class IngredientFragment extends Fragment {
         return rootView;
     }
 
-    //region RecyclerView Adapter
+    //region RecyclerView Adapter class
     private class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>
     {
 
@@ -79,14 +80,14 @@ public class IngredientFragment extends Fragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.txtIngredient.setText(String.format(getString(R.string.text_ingredient),
-                    recipesModel.getIngredients().get(position).getQuantity(),
-                    recipesModel.getIngredients().get(position).getMeasure(),
-                    recipesModel.getIngredients().get(position).getIngredient()));
+                    mRecipeModel.getIngredients().get(position).getQuantity(),
+                    mRecipeModel.getIngredients().get(position).getMeasure(),
+                    mRecipeModel.getIngredients().get(position).getIngredient()));
         }
 
         @Override
         public int getItemCount() {
-            return recipesModel.getIngredients().size();
+            return mRecipeModel.getIngredients().size();
         }
 
 

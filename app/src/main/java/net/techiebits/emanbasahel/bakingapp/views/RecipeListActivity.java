@@ -15,6 +15,7 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.techiebits.emanbasahel.bakingapp.R;
+import net.techiebits.emanbasahel.bakingapp.data.Ingredient;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 } else {
 
                     Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
-                    intent.putExtra(getString(R.string.title_argument_recipe), itemRecipe);
+                    intent.putExtra(getString(R.string.title_argument_recipe),itemRecipe );
                     startActivity(intent);
                 }
             }

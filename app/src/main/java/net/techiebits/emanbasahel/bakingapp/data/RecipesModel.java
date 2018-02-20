@@ -32,6 +32,7 @@ public class RecipesModel implements Parcelable {
     @Expose
     private String image;
 
+
     protected RecipesModel(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
@@ -39,6 +40,8 @@ public class RecipesModel implements Parcelable {
             id = in.readInt();
         }
         name = in.readString();
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
         if (in.readByte() == 0) {
             servings = null;
         } else {
@@ -107,6 +110,7 @@ public class RecipesModel implements Parcelable {
         this.image = image;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -121,6 +125,8 @@ public class RecipesModel implements Parcelable {
             parcel.writeInt(id);
         }
         parcel.writeString(name);
+        parcel.writeTypedList(ingredients);
+        parcel.writeTypedList(steps);
         if (servings == null) {
             parcel.writeByte((byte) 0);
         } else {
