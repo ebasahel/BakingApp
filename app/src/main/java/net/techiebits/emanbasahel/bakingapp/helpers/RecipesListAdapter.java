@@ -1,8 +1,5 @@
 package net.techiebits.emanbasahel.bakingapp.helpers;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +17,6 @@ import java.util.List;
 public class RecipesListAdapter
         extends RecyclerView.Adapter<RecipesListAdapter.ViewHolder> {
 
-    //    private final RecipeListActivity mParentActivity;
     private final List<RecipesModel> mRecipes;
 
     public interface OnItemClickListener {
@@ -35,7 +31,6 @@ public class RecipesListAdapter
                               List<RecipesModel> recipes) {
         mRecipes = recipes;
         mListener = listener;
-//        mParentActivity = parent;
     }
 
     @Override
