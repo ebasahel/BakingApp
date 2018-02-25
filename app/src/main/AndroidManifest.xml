@@ -15,11 +15,13 @@
             android:name=".views.RecipeListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".views.RecipeDetailActivity"
@@ -37,6 +39,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.FullscreenVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen_video"
+            android:theme="@style/FullscreenTheme" />
     </application>
 
 </manifest>

@@ -9,4 +9,11 @@
     <string name="title_instructions">Instructions</string>
     <string name="title_argument_recipe">recipe object</string>
     <string name="text_ingredient">%1$f %2$s %3$s</string>
+
+    <string name="title_activity_fullscreen_video">FullscreenVideoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="video_url">videoURL</string>
 </resources>
