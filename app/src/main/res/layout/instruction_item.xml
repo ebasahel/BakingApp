@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_recipe_description"
+        android:id="@+id/txt_recipe_instruction"
         android:layout_gravity="center"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"

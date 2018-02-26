@@ -49,15 +49,15 @@ public class RecipeDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.recipe_detail, container, false);
 
         //region init
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = (ViewPager) rootView.findViewById(R.id.container);
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         txtTitle = (TextView) rootView.findViewById(R.id.title_recipe);
         //endregion
 
         //region Set up the ViewPager with the sections adapter.
-        mSectionsPagerAdapter.addFragment(new IngredientFragment() , getString(R.string.title_ingredients));
-        mSectionsPagerAdapter.addFragment(new InstructionsFragment(), getString(R.string.title_instructions));
+        mSectionsPagerAdapter.addFragmentTitle(new IngredientFragment() , getString(R.string.title_ingredients));
+        mSectionsPagerAdapter.addFragmentTitle(new InstructionsFragment(), getString(R.string.title_instructions));
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         //setup the tab layout
@@ -75,23 +75,34 @@ public class RecipeDetailFragment extends Fragment {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+//        private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         private SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        private void addFragment(Fragment fragment, String title) {
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(getString(R.string.title_argument_recipe),recipesModel);
-            fragment.setArguments(arguments);
-            mFragmentList.add(fragment);
+        private void addFragmentTitle(Fragment fragment, String title) {
             mFragmentTitleList.add(title);
         }
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(getString(R.string.title_argument_recipe),recipesModel);
+            switch (position) {
+                case 0:
+                    IngredientFragment ingredientFragment = new IngredientFragment();
+                    ingredientFragment.setArguments(arguments);
+                    return ingredientFragment;
+
+                case 1:
+                   InstructionsFragment instructionsFragment =new InstructionsFragment();
+                   instructionsFragment.setArguments(arguments);
+                    return instructionsFragment;
+
+                default:
+                    return null;
+            }
         }
 
         @Override
@@ -101,7 +112,7 @@ public class RecipeDetailFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
+            return 2;
         }
     }
     //endregion

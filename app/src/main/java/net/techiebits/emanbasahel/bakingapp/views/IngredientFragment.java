@@ -24,6 +24,7 @@ public class IngredientFragment extends Fragment {
     private RecyclerView recyclerIngredients;
     private RecyclerView.LayoutManager mLayoutManager;
     private IngredientsAdapter mAdapter;
+    private TextView test;
     //endregion
 
     public IngredientFragment() {
@@ -36,15 +37,16 @@ public class IngredientFragment extends Fragment {
                              Bundle savedInstanceState) {
         //region init
         View rootView =inflater.inflate(R.layout.fragment_ingredient, container, false);
+        test = (TextView) rootView.findViewById(R.id.test);
         if (getArguments()!=null)
             recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
 
         //region init recyclerview
-        recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter= new IngredientsAdapter(recipesModel);
-        recyclerIngredients.setLayoutManager(mLayoutManager);
-        recyclerIngredients.setAdapter(mAdapter);
+//        recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mAdapter= new IngredientsAdapter(recipesModel);
+//        recyclerIngredients.setLayoutManager(mLayoutManager);
+//        recyclerIngredients.setAdapter(mAdapter);
         //endregion
 
         //endregion
@@ -73,7 +75,7 @@ public class IngredientFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ingredient_list_content, parent, false);
+                    .inflate(R.layout.ingredient_item, parent, false);
             return new ViewHolder(view);
         }
 
