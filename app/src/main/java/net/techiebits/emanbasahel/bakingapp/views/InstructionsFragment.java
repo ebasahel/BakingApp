@@ -1,10 +1,8 @@
 package net.techiebits.emanbasahel.bakingapp.views;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.helpers.ExoPlayerVideoHandler;
@@ -30,7 +24,6 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
     private InstructionsAdapter mAdapter;
     private RecipesModel recipesModel;
     private String mVideoURL;
-    private TextView test;
     //endregion
 
     // Required empty public constructor
@@ -42,17 +35,16 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_instructions, container, false);
-        test = (TextView) rootView.findViewById(R.id.test);
 
         if (getArguments()!=null)
             recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
 
         //region init recyclerview
-//        recyclerInstruction = rootView.findViewById(R.id.recycler_steps);
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//        mAdapter= new InstructionsAdapter(recipesModel,getActivity(),this);
-//        recyclerInstruction.setLayoutManager(mLayoutManager);
-//        recyclerInstruction.setAdapter(mAdapter);
+        recyclerInstruction = rootView.findViewById(R.id.recycler_steps);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter= new InstructionsAdapter(recipesModel,getActivity(),this);
+        recyclerInstruction.setLayoutManager(mLayoutManager);
+        recyclerInstruction.setAdapter(mAdapter);
         //endregion
         return rootView;
     }

@@ -10,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +73,6 @@ public class RecipeDetailFragment extends Fragment {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-//        private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         private SectionsPagerAdapter(FragmentManager fm) {

@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.techiebits.emanbasahel.bakingapp.R;
@@ -24,7 +24,6 @@ public class IngredientFragment extends Fragment {
     private RecyclerView recyclerIngredients;
     private RecyclerView.LayoutManager mLayoutManager;
     private IngredientsAdapter mAdapter;
-    private TextView test;
     //endregion
 
     public IngredientFragment() {
@@ -37,16 +36,20 @@ public class IngredientFragment extends Fragment {
                              Bundle savedInstanceState) {
         //region init
         View rootView =inflater.inflate(R.layout.fragment_ingredient, container, false);
-        test = (TextView) rootView.findViewById(R.id.test);
+        if(isAdded())
+            Log.d("Ingredient","AlreadyAdded");
+        if(isVisible())
+            Log.d("Ingredient","Visible");
+
         if (getArguments()!=null)
             recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
 
         //region init recyclerview
-//        recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//        mAdapter= new IngredientsAdapter(recipesModel);
-//        recyclerIngredients.setLayoutManager(mLayoutManager);
-//        recyclerIngredients.setAdapter(mAdapter);
+        recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter= new IngredientsAdapter(recipesModel);
+        recyclerIngredients.setLayoutManager(mLayoutManager);
+        recyclerIngredients.setAdapter(mAdapter);
         //endregion
 
         //endregion
