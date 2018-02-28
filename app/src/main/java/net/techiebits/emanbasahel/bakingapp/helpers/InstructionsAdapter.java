@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.data.Step;
@@ -23,15 +25,14 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
     private Context mContext;
     private VideoHandlerInterface videoHandler;
 
-    public interface VideoHandlerInterface
-    {
+    public interface VideoHandlerInterface {
         void onVideoDisplayed(String videoURL);
     }
 
-    public InstructionsAdapter(RecipesModel recipemodle, Context context,VideoHandlerInterface videoHandlerInterface) {
+    public InstructionsAdapter(RecipesModel recipemodle, Context context, VideoHandlerInterface videoHandlerInterface) {
         mRecipeModel = recipemodle;
         mContext = context;
-        videoHandler =videoHandlerInterface;
+        videoHandler = videoHandlerInterface;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,11 +45,15 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
             mPlayerView = (SimpleExoPlayerView) itemView.findViewById(R.id.player_view);
         }
 
-        void bind(final Step step, final VideoHandlerInterface videoHandlerInterface)
-        {
+        void bind(final Step step, final VideoHandlerInterface videoHandlerInterface) {
             txtInstruction.setText(step.getDescription());
-            ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(mContext, Uri.parse(step.getVideoURL()),mPlayerView);
-            videoHandler.onVideoDisplayed(step.getVideoURL());
+            if (step.getVideoURL().isEmpty())
+                mPlayerView.setVisibility(View.GONE);
+            else {
+                ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(mContext, Uri.parse(step.getVideoURL()), mPlayerView);
+                videoHandler.onVideoDisplayed(step.getVideoURL());
+            }
+
         }
     }
 
@@ -61,12 +66,12 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     @Override
     public void onBindViewHolder(InstructionsAdapter.ViewHolder holder, int position) {
-        holder.bind(mRecipeModel.getSteps().get(position),videoHandler);
+        holder.bind(mRecipeModel.getSteps().get(position), videoHandler);
     }
 
     @Override
     public int getItemCount() {
-        return mRecipeModel.getIngredients().size();
+        return mRecipeModel.getSteps().size();
     }
 
 
