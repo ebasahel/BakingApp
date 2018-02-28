@@ -79,6 +79,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putParcelable(getString(R.string.title_argument_recipe),itemRecipe);
+                    arguments.putBoolean(getString(R.string.is_two_pane),mTwoPane);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()

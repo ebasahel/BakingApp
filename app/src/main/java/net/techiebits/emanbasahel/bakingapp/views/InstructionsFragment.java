@@ -24,6 +24,7 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
     private InstructionsAdapter mAdapter;
     private RecipesModel recipesModel;
     private String mVideoURL;
+    private boolean mTwoPane;
     //endregion
 
     // Required empty public constructor
@@ -37,7 +38,11 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
         rootView = inflater.inflate(R.layout.fragment_instructions, container, false);
 
         if (getArguments()!=null)
+        {
             recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
+            mTwoPane= getArguments().getBoolean(getString(R.string.is_two_pane));
+        }
+
 
         //region init recyclerview
         recyclerInstruction = rootView.findViewById(R.id.recycler_steps);
@@ -60,7 +65,7 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
     {
         super.onResume();
         ExoPlayerVideoHandler.getInstance().goToForeground();
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane)
         {
             Intent intent = new Intent(getActivity(),
                     FullscreenVideoActivity.class);

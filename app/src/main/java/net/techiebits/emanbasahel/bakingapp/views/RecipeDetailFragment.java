@@ -22,6 +22,7 @@ public class RecipeDetailFragment extends Fragment {
     private TabLayout tabLayout;
     private TextView txtTitle;
     private RecipesModel recipesModel;
+    private boolean mTwoPane;
     //endregion
 
     /**
@@ -37,6 +38,7 @@ public class RecipeDetailFragment extends Fragment {
 
         if (getArguments().containsKey(getString(R.string.title_argument_recipe))) {
             recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
+            mTwoPane= getArguments().getBoolean(getString(R.string.is_two_pane));
 
         }
     }
@@ -94,6 +96,7 @@ public class RecipeDetailFragment extends Fragment {
 
                 case 1:
                    InstructionsFragment instructionsFragment =new InstructionsFragment();
+                   arguments.putBoolean(getString(R.string.is_two_pane),mTwoPane);
                    instructionsFragment.setArguments(arguments);
                     return instructionsFragment;
 
