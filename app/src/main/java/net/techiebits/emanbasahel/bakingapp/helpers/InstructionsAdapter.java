@@ -50,17 +50,12 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
             txtInstruction.setText(step.getDescription());
             if (step.getVideoURL().isEmpty())
             {
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        0.0f
-                );
-                mPlayerView.setLayoutParams(param);
-                mPlayerView.requestLayout();
                 mPlayerView.setVisibility(View.GONE);
             }
 
             else {
+                // Initialize the Media Session.
+                ExoPlayerVideoHandler.getInstance().initializeMediaSession(mContext);
                 ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(mContext, Uri.parse(step.getVideoURL()), mPlayerView);
                 videoHandler.onVideoDisplayed(step.getVideoURL());
             }
