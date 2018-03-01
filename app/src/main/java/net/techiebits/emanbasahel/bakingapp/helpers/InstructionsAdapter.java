@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
@@ -48,7 +49,17 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
         void bind(final Step step, final VideoHandlerInterface videoHandlerInterface) {
             txtInstruction.setText(step.getDescription());
             if (step.getVideoURL().isEmpty())
+            {
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        0.0f
+                );
+                mPlayerView.setLayoutParams(param);
+                mPlayerView.requestLayout();
                 mPlayerView.setVisibility(View.GONE);
+            }
+
             else {
                 ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(mContext, Uri.parse(step.getVideoURL()), mPlayerView);
                 videoHandler.onVideoDisplayed(step.getVideoURL());

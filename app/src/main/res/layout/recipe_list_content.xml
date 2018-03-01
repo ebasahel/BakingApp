@@ -5,7 +5,7 @@
     android:id="@+id/linear_container"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/light_pink"
-    android:layout_margin="5dp"
+    android:layout_margin="@dimen/spacing_margin"
     android:orientation="horizontal">
 
     <TextView

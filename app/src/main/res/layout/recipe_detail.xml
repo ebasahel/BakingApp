@@ -14,8 +14,9 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:layout_marginBottom="10dp" />
+        android:textSize="@dimen/text_title_size"
+        android:layout_marginTop="@dimen/spacing_margin"
+        android:layout_marginBottom="@dimen/item_margin" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"

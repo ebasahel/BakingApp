@@ -32,13 +32,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.techiebits.emanbasahel.bakingapp.views.RecipeListActivity" />
         </activity>
-        <activity android:name=".views.MediaActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
         <activity
             android:name=".views.FullscreenVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

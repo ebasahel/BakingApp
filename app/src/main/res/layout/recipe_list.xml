@@ -7,8 +7,8 @@
     android:name="net.techiebits.emanbasahel.bakingapp.RecipeListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/material_margin"
+    android:layout_marginRight="@dimen/material_margin"
     app:layoutManager="LinearLayoutManager"
     tools:context="net.techiebits.emanbasahel.bakingapp.views.RecipeListActivity"
     tools:listitem="@layout/recipe_list_content" />
