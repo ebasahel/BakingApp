@@ -48,16 +48,12 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
         void bind(final Step step, final VideoHandlerInterface videoHandlerInterface) {
             txtInstruction.setText(step.getDescription());
-            if (step.getVideoURL().isEmpty())
-            {
+            if (step.getVideoURL().isEmpty()) {
                 mPlayerView.setVisibility(View.GONE);
-            }
-
-            else {
+            } else {
                 // Initialize the Media Session.
-                ExoPlayerVideoHandler.getInstance().initializeMediaSession(mContext);
                 ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(mContext, Uri.parse(step.getVideoURL()), mPlayerView);
-                videoHandler.onVideoDisplayed(step.getVideoURL());
+                videoHandlerInterface.onVideoDisplayed(step.getVideoURL());
             }
 
         }
