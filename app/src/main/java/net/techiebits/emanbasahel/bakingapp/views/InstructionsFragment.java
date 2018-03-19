@@ -39,7 +39,7 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
 
         if (getArguments()!=null)
         {
-            recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
+            recipesModel=getArguments().getParcelable(getString(R.string.title_recipe));
             mTwoPane= getArguments().getBoolean(getString(R.string.is_two_pane));
         }
 

@@ -42,7 +42,7 @@ public class IngredientFragment extends Fragment {
             Log.d("Ingredient","Visible");
 
         if (getArguments()!=null)
-            recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
+            recipesModel=getArguments().getParcelable(getString(R.string.title_recipe));
 
         //region init recyclerview
         recyclerIngredients = (RecyclerView) rootView.findViewById(R.id.recycler_ingredients);
@@ -57,7 +57,7 @@ public class IngredientFragment extends Fragment {
     }
 
     //region RecyclerView Adapter class
-    private class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>
+    public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>
     {
 
         RecipesModel mRecipeModel;

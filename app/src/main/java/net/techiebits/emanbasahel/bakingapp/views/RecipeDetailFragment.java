@@ -36,8 +36,8 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(getString(R.string.title_argument_recipe))) {
-            recipesModel=getArguments().getParcelable(getString(R.string.title_argument_recipe));
+        if (getArguments().containsKey(getString(R.string.title_recipe))) {
+            recipesModel=getArguments().getParcelable(getString(R.string.title_recipe));
             mTwoPane= getArguments().getBoolean(getString(R.string.is_two_pane));
 
         }
@@ -87,7 +87,7 @@ public class RecipeDetailFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             Bundle arguments = new Bundle();
-            arguments.putParcelable(getString(R.string.title_argument_recipe),recipesModel);
+            arguments.putParcelable(getString(R.string.title_recipe),recipesModel);
             switch (position) {
                 case 0:
                     IngredientFragment ingredientFragment = new IngredientFragment();

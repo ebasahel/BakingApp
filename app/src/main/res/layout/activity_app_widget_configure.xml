@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/material_margin"
+    android:orientation="vertical"
+    tools:context="net.techiebits.emanbasahel.bakingapp.widget.AppWidgetConfigureActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_widget_choose_recipe"
+        android:textSize="20sp"
+        android:layout_marginBottom="@dimen/spacing_margin"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_widget"
+        tools:listitem="@layout/recipe_list_content"
+        />
+</LinearLayout>

@@ -2,6 +2,7 @@ package net.techiebits.emanbasahel.bakingapp.helpers;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     private RecipesModel mRecipeModel;
     private SimpleExoPlayerView mPlayerView;
+    private TextView txtInstruction;
     private Context mContext;
     private VideoHandlerInterface videoHandler;
     private ImageView noVideoPlaceholder;
@@ -41,9 +43,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtInstruction;
-
-        public ViewHolder(View itemView) {
+         ViewHolder(View itemView) {
             super(itemView);
             txtInstruction = (TextView) itemView.findViewById(R.id.txt_recipe_instruction);
             mPlayerView = (SimpleExoPlayerView) itemView.findViewById(R.id.player_view);
@@ -67,14 +67,15 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
     }
 
     @Override
-    public InstructionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public InstructionsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.instruction_item, parent, false);
         return new InstructionsAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(InstructionsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InstructionsAdapter.ViewHolder holder, int position) {
         holder.bind(mRecipeModel.getSteps().get(position), videoHandler);
     }
 

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/linear_container"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/light_pink"
+    android:background="@color/light_blue"
     android:layout_margin="@dimen/spacing_margin"
     android:orientation="horizontal">
 

@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.Ingredient;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
+import net.techiebits.emanbasahel.bakingapp.helpers.ReadingRecipes;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,12 +66,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
     //region handling list of Recipes
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        //region parse json array to List using Gson
-        Gson gson = new Gson();
-        @SuppressWarnings("serial")
-        Type collectionType = new TypeToken<List<RecipesModel>>() {}.getType();
-        List<RecipesModel> recipesModels = gson.fromJson(readJSONFile(), collectionType);
-        assertEquals(4, recipesModels.size());
+
         //endregion
 
         recyclerView.setAdapter(new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
@@ -78,7 +74,7 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onItemClick(RecipesModel itemRecipe) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putParcelable(getString(R.string.title_argument_recipe),itemRecipe);
+                    arguments.putParcelable(getString(R.string.title_recipe),itemRecipe);
                     arguments.putBoolean(getString(R.string.is_two_pane),mTwoPane);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
@@ -88,32 +84,15 @@ public class RecipeListActivity extends AppCompatActivity {
                 } else {
 
                     Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
-                    intent.putExtra(getString(R.string.title_argument_recipe),itemRecipe );
+                    intent.putExtra(getString(R.string.title_recipe),itemRecipe );
                     startActivity(intent);
                 }
             }
-        }, recipesModels));
+        }, ReadingRecipes.getInstance(this).getRecipes()));
     }
     //endregion
 
-    //region read JSON file from assets
-    //snippet from http://www.codexpedia.com/android/read-a-json-file-from-the-assets-folder-in-android/
-    private String readJSONFile()
-    {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("recipe.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return json;
-    }
-    //endregion
+
 
 
 }
