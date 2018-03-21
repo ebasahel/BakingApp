@@ -19,4 +19,5 @@
     <string name="video_url">videoURL</string>
     <string name="is_two_pane">isTwoPane</string>
     <string name="msg_widget_choose_recipe">Choose the recipe that you want to get its ingredients..</string>
+    <string name="item_first_text_test">Nutella Pie</string>
 </resources>
