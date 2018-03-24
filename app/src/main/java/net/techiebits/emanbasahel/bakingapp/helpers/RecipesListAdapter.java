@@ -64,7 +64,7 @@ public class RecipesListAdapter
         }
 
         void bind(final RecipesModel recipesModel, final OnItemClickListener listener) {
-            mIdView.setText(recipesModel.getId().toString());
+            mIdView.setText(String.valueOf(recipesModel.getId()));
             mContentView.setText(recipesModel.getName());
             mLinearContainer.setOnClickListener(new View.OnClickListener() {
                 @Override

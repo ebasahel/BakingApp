@@ -1,7 +1,10 @@
 package net.techiebits.emanbasahel.bakingapp.helpers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.util.Log;
 import android.view.SurfaceView;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -15,6 +18,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,7 +60,7 @@ public class ExoPlayerVideoHandler {
             mExoPlayer.setVideoSurfaceView(
                     (SurfaceView) exoPlayerView.getVideoSurfaceView());
             mExoPlayer.seekTo(mExoPlayer.getCurrentPosition() + 1);
-            exoPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(true);
         }
     }
     //endregion
@@ -80,4 +84,5 @@ public class ExoPlayerVideoHandler {
             mExoPlayer.setPlayWhenReady(isPlayerPlaying);
         }
     }
+
 }

@@ -36,10 +36,6 @@ public class IngredientFragment extends Fragment {
                              Bundle savedInstanceState) {
         //region init
         View rootView =inflater.inflate(R.layout.fragment_ingredient, container, false);
-        if(isAdded())
-            Log.d("Ingredient","AlreadyAdded");
-        if(isVisible())
-            Log.d("Ingredient","Visible");
 
         if (getArguments()!=null)
             recipesModel=getArguments().getParcelable(getString(R.string.title_recipe));

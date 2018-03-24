@@ -98,8 +98,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         {
             videoURl= getIntent().getExtras().getString(getString(R.string.video_url));
         }
-        exoPlayerView =
-                (SimpleExoPlayerView)findViewById(R.id.exoplayer_video);
+        exoPlayerView = findViewById(R.id.exoplayer_video);
         mVisible = true;
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -169,17 +168,12 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         super.onResume();
         ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this,Uri.parse(videoURl),exoPlayerView);
         ExoPlayerVideoHandler.getInstance().goToForeground();
-
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            destroyVideo = false;
-            finish();
-        }
     }
 
     @Override
     public void onBackPressed(){
         destroyVideo = false;
+        finish();
         super.onBackPressed();
     }
 
@@ -195,5 +189,17 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         if(destroyVideo){
             ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
         }
+    }
+
+    //to detect screen rotation and exit full screen when it's ORIENTATION_PORTRAIT
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            destroyVideo = false;
+            finish();
+        }
+
     }
 }

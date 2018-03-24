@@ -23,7 +23,6 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
     private RecyclerView.LayoutManager mLayoutManager;
     private InstructionsAdapter mAdapter;
     private RecipesModel recipesModel;
-    private String mVideoURL;
     private boolean mTwoPane;
     //endregion
 
@@ -54,35 +53,13 @@ public class InstructionsFragment extends Fragment implements InstructionsAdapte
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        ExoPlayerVideoHandler.getInstance().goToForeground();
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane)
-        {
-            Intent intent = new Intent(getActivity(),
-                    FullscreenVideoActivity.class);
-            intent.putExtra(getString(R.string.video_url),mVideoURL);
-            startActivity(intent);
-        }
-
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        ExoPlayerVideoHandler.getInstance().goToBackground();
-    }
 
     @Override
     public void onVideoDisplayed(String videoURL) {
-        mVideoURL =videoURL;
+        Intent intent = new Intent(getActivity(), PlayVideoActivity.class);
+        intent.putExtra(getString(R.string.video_url),videoURL);
+        intent.putExtra(getString(R.string.is_two_pane),mTwoPane);
+        startActivity(intent);
     }
 }
 
