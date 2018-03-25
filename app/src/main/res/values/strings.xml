@@ -21,4 +21,5 @@
     <string name="msg_widget_choose_recipe">Choose the recipe that you want to get its ingredients..</string>
     <string name="item_first_text_test">Nutella Pie</string>
     <string name="seek_position">player_seek_position</string>
+    <string name="noData">There\'s No Data</string>
 </resources>

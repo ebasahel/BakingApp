@@ -2,27 +2,24 @@ package net.techiebits.emanbasahel.bakingapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import android.widget.Toast;
+
 import net.techiebits.emanbasahel.bakingapp.R;
-import net.techiebits.emanbasahel.bakingapp.data.Ingredient;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
-import net.techiebits.emanbasahel.bakingapp.helpers.ReadingRecipes;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -41,6 +38,8 @@ public class RecipeListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private List<RecipesModel> recipesModelList;
+    View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +57,31 @@ public class RecipeListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
-        View recyclerView = findViewById(R.id.recipe_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        getRecipes();
+        recyclerView = findViewById(R.id.recipe_list);
     }
 
+    //region getRecipes
+    public void getRecipes() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<RecipesModel>> call = apiService.getRecipes();
+        call.enqueue(new Callback<List<RecipesModel>>() {
+
+            @Override
+            public void onResponse(Call<List<RecipesModel>> call, Response<List<RecipesModel>> response) {
+                recipesModelList=response.body();
+                assert recyclerView != null;
+                setupRecyclerView((RecyclerView) recyclerView);
+            }
+
+            @Override
+            public void onFailure(Call<List<RecipesModel>> call, Throwable t) {
+                Toast.makeText(RecipeListActivity.this, getString(R.string.noData), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+    //endregion
     //region handling list of Recipes
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
@@ -88,7 +106,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        }, ReadingRecipes.getInstance(this).getRecipes()));
+        }, recipesModelList));
     }
     //endregion
 

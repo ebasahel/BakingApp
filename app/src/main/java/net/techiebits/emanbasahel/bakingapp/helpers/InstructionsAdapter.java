@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.data.Step;
@@ -49,8 +52,22 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
         void bind(final Step step, final VideoHandlerInterface videoHandlerInterface) {
             txtInstruction.setText(step.getDescription());
+            //region set Thumbnail image
+            if(!step.getThumbnailURL().isEmpty())
+            {
+                Picasso.get()
+                        .load(step.getThumbnailURL())
+                        .placeholder(R.drawable.drawable_no_video)
+                        .error(R.drawable.drawable_no_video)
+                        .into(mVideoPlaceholder);
+            }
+            //endregion
+            //region video of the step
+            //set background color of step to green if there's video to display
+            //when clicks in step video will be displayed
             if (!step.getVideoURL().isEmpty()) {
-                mVideoPlaceholder.setImageDrawable(mContext.getResources().getDrawable(R.drawable.drawable_play_video));
+                stepContainer.setCardBackgroundColor(mContext.getColor(R.color.light_green));
+//                mVideoPlaceholder.setImageDrawable(mContext.getResources().getDrawable(R.drawable.drawable_play_video));
                 stepContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -58,11 +75,11 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
                     }
                 });
             }
-            else
-            {
-                mVideoPlaceholder.setImageDrawable(mContext.getResources().getDrawable(R.drawable.drawable_no_video));
-            }
-
+//            else
+//            {
+//                mVideoPlaceholder.setImageDrawable(mContext.getResources().getDrawable(R.drawable.drawable_no_video));
+//            }
+            //endregion
         }
     }
 

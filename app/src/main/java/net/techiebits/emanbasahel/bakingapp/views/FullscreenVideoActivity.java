@@ -164,6 +164,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+    //region Activity Lisfecycle
     @Override
     protected void onResume(){
         super.onResume();
@@ -171,18 +172,16 @@ public class FullscreenVideoActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        destroyVideo = false;
-        finish();
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onPause(){
         super.onPause();
         ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
     }
-
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+    }
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -191,7 +190,16 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         }
     }
 
-    //to detect screen rotation and exit full screen when it's ORIENTATION_PORTRAIT
+    @Override
+    public void onBackPressed(){
+        destroyVideo = false;
+        finish();
+        super.onBackPressed();
+    }
+    //endregion
+
+
+    //region to detect screen rotation and exit full screen when it's ORIENTATION_PORTRAIT
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -203,6 +211,6 @@ public class FullscreenVideoActivity extends AppCompatActivity {
             setResult(RESULT_OK,new Intent().putExtra(getString(R.string.seek_position),seekPosition));
             finish();
         }
-
     }
+    //endregion
 }

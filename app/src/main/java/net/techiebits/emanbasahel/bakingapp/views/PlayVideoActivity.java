@@ -11,11 +11,14 @@ import net.techiebits.emanbasahel.bakingapp.helpers.ExoPlayerVideoHandler;
 
 public class PlayVideoActivity extends AppCompatActivity  {
 
+    //region variables
     private SimpleExoPlayerView mPlayerView;
     private boolean mTwoPane;
     private String mVideoURL;
     private int mRequestCode=100;
     private long mResumePosition;
+    //endregion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class PlayVideoActivity extends AppCompatActivity  {
             mResumePosition=0;
 
         }
+
+        //region when screen rotated to landscape mode on phones open video in Fullscreen
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane)
         {
             Intent intent = new Intent(this,
@@ -38,10 +43,11 @@ public class PlayVideoActivity extends AppCompatActivity  {
             intent.putExtra(getString(R.string.seek_position),ExoPlayerVideoHandler.getInstance().getResumePosition());
             startActivityForResult(intent,mRequestCode);
         }
-
+        //endregion
 
     }
 
+    //region Activity Lisfecycle
     @Override
     public void onResume()
     {
@@ -57,11 +63,19 @@ public class PlayVideoActivity extends AppCompatActivity  {
     }
 
     @Override
+    public void onStop()
+    {
+        super.onStop();
+        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+    }
+    @Override
     public void onDestroy() {
         super.onDestroy();
         ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
     }
+    //endregion
 
+    //region getting the position of the video back from the fullscreen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -72,5 +86,5 @@ public class PlayVideoActivity extends AppCompatActivity  {
             }
         }
     }
-
+    //endregion
 }
