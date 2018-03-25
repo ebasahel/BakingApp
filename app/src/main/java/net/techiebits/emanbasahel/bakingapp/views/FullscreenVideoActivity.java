@@ -1,6 +1,7 @@
 package net.techiebits.emanbasahel.bakingapp.views;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
@@ -9,9 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.helpers.ExoPlayerVideoHandler;
 
@@ -28,6 +27,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
     private boolean destroyVideo = true;
     SimpleExoPlayerView exoPlayerView;
     private String videoURl;
+    private long seekPosition;
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
@@ -97,6 +97,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         if (getIntent().getExtras()!=null)
         {
             videoURl= getIntent().getExtras().getString(getString(R.string.video_url));
+            seekPosition=getIntent().getExtras().getLong(getString(R.string.seek_position));
         }
         exoPlayerView = findViewById(R.id.exoplayer_video);
         mVisible = true;
@@ -166,8 +167,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this,Uri.parse(videoURl),exoPlayerView);
-        ExoPlayerVideoHandler.getInstance().goToForeground();
+        ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this,Uri.parse(videoURl),exoPlayerView,seekPosition);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class FullscreenVideoActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        ExoPlayerVideoHandler.getInstance().goToBackground();
+        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
     }
 
     @Override
@@ -198,6 +198,9 @@ public class FullscreenVideoActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             destroyVideo = false;
+            ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+            long seekPosition=ExoPlayerVideoHandler.getInstance().getResumePosition();
+            setResult(RESULT_OK,new Intent().putExtra(getString(R.string.seek_position),seekPosition));
             finish();
         }
 

@@ -1,10 +1,7 @@
 package net.techiebits.emanbasahel.bakingapp.helpers;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.util.Log;
 import android.view.SurfaceView;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -16,11 +13,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * This class is built using the help from https://medium.com/tall-programmer/fullscreen-functionality-with-android-exoplayer-5fddad45509f
  */
@@ -28,7 +20,8 @@ import java.util.List;
 public class ExoPlayerVideoHandler {
     private static ExoPlayerVideoHandler instance;
     private SimpleExoPlayer mExoPlayer;
-    private boolean isPlayerPlaying;
+    private long mResumePosition;
+    private TrackSelector trackSelector;
 
     public static ExoPlayerVideoHandler getInstance() {
         if (instance == null) {
@@ -38,12 +31,12 @@ public class ExoPlayerVideoHandler {
     }
     //region init player
     public void prepareExoPlayerForUri(Context mContext, Uri mediaUri,
-                                       SimpleExoPlayerView exoPlayerView) {
+                                       SimpleExoPlayerView exoPlayerView, long seekPosition) {
         String userAgent = "";
         if (mContext != null && mediaUri != null && exoPlayerView != null) {
             if (mExoPlayer == null) {
                 // Create an instance of the ExoPlayer.
-                TrackSelector trackSelector = new DefaultTrackSelector();
+                trackSelector = new DefaultTrackSelector();
                 mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
                 exoPlayerView.setPlayer(mExoPlayer);
                 // Prepare the MediaSource.
@@ -53,13 +46,12 @@ public class ExoPlayerVideoHandler {
             MediaSource mediaSource = new ExtractorMediaSource
                     (mediaUri, new DefaultDataSourceFactory(mContext, userAgent), new DefaultExtractorsFactory(),
                             null, null);
-//                mExoPlayer.setPlayWhenReady(true);
             // Prepare the player with the source.
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.clearVideoSurface();
             mExoPlayer.setVideoSurfaceView(
                     (SurfaceView) exoPlayerView.getVideoSurfaceView());
-            mExoPlayer.seekTo(mExoPlayer.getCurrentPosition() + 1);
+            mExoPlayer.seekTo(seekPosition);
             mExoPlayer.setPlayWhenReady(true);
         }
     }
@@ -68,21 +60,20 @@ public class ExoPlayerVideoHandler {
     public void releaseVideoPlayer() {
         if (mExoPlayer != null) {
             mExoPlayer.release();
-        }
-        mExoPlayer = null;
-    }
-
-    public void goToBackground() {
-        if (mExoPlayer != null) {
-            isPlayerPlaying = mExoPlayer.getPlayWhenReady();
-            mExoPlayer.setPlayWhenReady(false);
+            setResumePosition(Math.max(0, mExoPlayer.getContentPosition()));
+            mExoPlayer = null;
+            trackSelector = null;
         }
     }
 
-    public void goToForeground() {
-        if (mExoPlayer != null) {
-            mExoPlayer.setPlayWhenReady(isPlayerPlaying);
-        }
+    public long getResumePosition ()
+    {
+        return mResumePosition;
+    }
+
+    private void setResumePosition(long resumePosition)
+    {
+        mResumePosition=resumePosition;
     }
 
 }

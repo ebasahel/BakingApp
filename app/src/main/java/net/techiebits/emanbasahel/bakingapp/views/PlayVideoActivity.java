@@ -5,19 +5,17 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.helpers.ExoPlayerVideoHandler;
-import net.techiebits.emanbasahel.bakingapp.helpers.InstructionsAdapter;
 
 public class PlayVideoActivity extends AppCompatActivity  {
 
     private SimpleExoPlayerView mPlayerView;
     private boolean mTwoPane;
     private String mVideoURL;
+    private int mRequestCode=100;
+    private long mResumePosition;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +27,16 @@ public class PlayVideoActivity extends AppCompatActivity  {
         {
             mTwoPane= bundle.getBooleanExtra(getString(R.string.is_two_pane),false);
             mVideoURL = bundle.getStringExtra(getString(R.string.video_url));
-        }
+            mResumePosition=0;
 
+        }
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane)
         {
             Intent intent = new Intent(this,
                     FullscreenVideoActivity.class);
             intent.putExtra(getString(R.string.video_url),mVideoURL);
-            startActivity(intent);
-        }else
-        {
-            Log.d("ExoPlayer","VideoPlayer");
-            ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this, Uri.parse(mVideoURL), mPlayerView);
+            intent.putExtra(getString(R.string.seek_position),ExoPlayerVideoHandler.getInstance().getResumePosition());
+            startActivityForResult(intent,mRequestCode);
         }
 
 
@@ -50,16 +46,13 @@ public class PlayVideoActivity extends AppCompatActivity  {
     public void onResume()
     {
         super.onResume();
-        Log.d("ExoPlayer","VideoPlayer-onResume");
-        ExoPlayerVideoHandler.getInstance().goToForeground();
-
+        ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this, Uri.parse(mVideoURL), mPlayerView,mResumePosition);
 
     }
     @Override
     public void onPause(){
         super.onPause();
-        Log.d("ExoPlayer","VideoPlayer-onPause");
-        ExoPlayerVideoHandler.getInstance().goToBackground();
+        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
 
     }
 
@@ -68,4 +61,16 @@ public class PlayVideoActivity extends AppCompatActivity  {
         super.onDestroy();
         ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode==mRequestCode) {
+            if (resultCode == RESULT_OK) {
+                mResumePosition = data.getLongExtra(getString(R.string.seek_position), 0);
+
+            }
+        }
+    }
+
 }
