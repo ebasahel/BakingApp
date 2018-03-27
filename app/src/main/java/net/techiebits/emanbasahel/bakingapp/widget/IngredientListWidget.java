@@ -5,8 +5,19 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.widget.RemoteViews;
 import net.techiebits.emanbasahel.bakingapp.R;
+import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Implementation of App Widget functionality.
@@ -15,8 +26,9 @@ public class IngredientListWidget extends AppWidgetProvider {
 
     private  int mRecipeId;
     private String mRecipeName;
+    private List<RecipesModel> recipesModelList;
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId,int recipeId,String recipeName) {
+                                int appWidgetId, int recipeId, String recipeName) {
         mRecipeId=recipeId;
         mRecipeName=recipeName;
         updateRemoteViews(context,appWidgetManager,appWidgetId,recipeName);
@@ -38,6 +50,7 @@ public class IngredientListWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, IngredientWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.putExtra(context.getString(R.string.recipe_id), mRecipeId);
+//        intent.putParcelableArrayListExtra(context.getString(R.string.title_recipe), (ArrayList<? extends Parcelable>) recipesModelList);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredient_list_widget);
         rv.setTextViewText(R.id.recipe_widget_name,recipeName);

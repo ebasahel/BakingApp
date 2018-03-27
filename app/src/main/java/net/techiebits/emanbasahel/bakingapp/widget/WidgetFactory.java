@@ -3,12 +3,21 @@ package net.techiebits.emanbasahel.bakingapp.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.Toast;
+
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
+import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
 import net.techiebits.emanbasahel.bakingapp.helpers.ReadingRecipes;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by emanbasahel on 18/03/2018 AD.
@@ -26,13 +35,13 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         mRecipeId=intent.getIntExtra(context.getString(R.string.recipe_id),0);
-        recipesModelList= ReadingRecipes.getInstance(context).getRecipes();
+        recipesModelList=intent.getParcelableArrayListExtra(context.getString(R.string.title_recipe));
+        recipesModelList=ReadingRecipes.getInstance(context).getRecipes();
     }
     @Override
     public void onCreate() {
 
     }
-
     @Override
     public void onDataSetChanged() {
 
