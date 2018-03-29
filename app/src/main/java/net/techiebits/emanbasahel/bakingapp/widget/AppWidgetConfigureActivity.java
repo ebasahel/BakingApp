@@ -99,7 +99,7 @@ public class AppWidgetConfigureActivity extends Activity {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 IngredientListWidget ingredientListWidget = new IngredientListWidget();
                 ingredientListWidget.updateAppWidget(context, appWidgetManager,
-                        mAppWidgetId,itemRecipe.getId(),itemRecipe.getName());
+                        mAppWidgetId,itemRecipe.getId(),itemRecipe.getName(),itemRecipe);
 
                 finish();
 

@@ -28,15 +28,15 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private  Context mContext=null;
     private int appWidgetId;
     private int mRecipeId;
-    private List<RecipesModel> recipesModelList;
+    private RecipesModel mRecipesModel;
     public WidgetFactory (Context context, Intent intent)
     {
         mContext=context;
         appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         mRecipeId=intent.getIntExtra(context.getString(R.string.recipe_id),0);
-        recipesModelList=intent.getParcelableArrayListExtra(context.getString(R.string.title_recipe));
-        recipesModelList=ReadingRecipes.getInstance(context).getRecipes();
+        mRecipesModel=intent.getParcelableExtra(context.getString(R.string.title_recipe));
+//        recipesModelList=ReadingRecipes.getInstance(context).getRecipes();
     }
     @Override
     public void onCreate() {
@@ -54,7 +54,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        return recipesModelList.get(mRecipeId-1).getIngredients().size();
+        return mRecipesModel.getIngredients().size();
     }
 
     @Override
@@ -62,9 +62,9 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews rv=new RemoteViews(mContext.getPackageName(),
                 R.layout.ingredient_item);
         rv.setTextViewText(R.id.txt_ingredient, String.format(mContext.getString(R.string.text_ingredient),
-                recipesModelList.get(mRecipeId-1).getIngredients().get(position).getQuantity(),
-                recipesModelList.get(mRecipeId-1).getIngredients().get(position).getMeasure(),
-                recipesModelList.get(mRecipeId-1).getIngredients().get(position).getIngredient()));
+                mRecipesModel.getIngredients().get(position).getQuantity(),
+                mRecipesModel.getIngredients().get(position).getMeasure(),
+                mRecipesModel.getIngredients().get(position).getIngredient()));
 
         return rv;
     }

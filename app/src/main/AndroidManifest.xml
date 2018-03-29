@@ -46,7 +46,7 @@
         </receiver>
 
         <service
-            android:name=".widget.IngredientWidgetService"
+            android:name="net.techiebits.emanbasahel.bakingapp.widget.IngredientWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity android:name=".widget.AppWidgetConfigureActivity">
