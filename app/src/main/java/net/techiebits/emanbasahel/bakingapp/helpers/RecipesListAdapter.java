@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class RecipesListAdapter
-        extends RecyclerView.Adapter<RecipesListAdapter.ViewHolder> {
+        extends RecyclerView.Adapter<RecipesListAdapter.RecipeViewHolder> {
 
     private final List<RecipesModel> mRecipes;
 
@@ -34,14 +34,14 @@ public class RecipesListAdapter
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recipe_list_content, parent, false);
-        return new ViewHolder(view);
+        return new RecipeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecipeViewHolder holder, int position) {
         holder.bind(mRecipes.get(position), mListener);
     }
 
@@ -50,12 +50,12 @@ public class RecipesListAdapter
         return mRecipes.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
         final TextView mIdView;
         final TextView mContentView;
         final LinearLayout mLinearContainer;
 
-        ViewHolder(View view) {
+        RecipeViewHolder(View view) {
             super(view);
             mIdView = (TextView) view.findViewById(R.id.id_text);
             mContentView = (TextView) view.findViewById(R.id.content);
