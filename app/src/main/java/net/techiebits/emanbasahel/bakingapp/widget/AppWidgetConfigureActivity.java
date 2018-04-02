@@ -8,17 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
-
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.data.RecipesModel;
 import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
 import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
-import net.techiebits.emanbasahel.bakingapp.helpers.ReadingRecipes;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
-import net.techiebits.emanbasahel.bakingapp.views.RecipeDetailActivity;
-import net.techiebits.emanbasahel.bakingapp.views.RecipeListActivity;
 
 import java.util.List;
 

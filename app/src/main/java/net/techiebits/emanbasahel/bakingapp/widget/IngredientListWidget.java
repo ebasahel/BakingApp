@@ -29,6 +29,7 @@ public class IngredientListWidget extends AppWidgetProvider {
     private  int mRecipeId;
     private String mRecipeName;
     private RecipesModel mRecipesModel;
+    Intent intent;
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, int recipeId, String recipeName,RecipesModel recipesModel) {
         mRecipeId=recipeId;
@@ -52,7 +53,7 @@ public class IngredientListWidget extends AppWidgetProvider {
     private void updateRemoteViews(Context context, AppWidgetManager appWidgetManager,
                                   int appWidgetId,String recipeName,RecipesModel recipesModel)
     {
-        Intent intent = new Intent(context, IngredientWidgetService.class);
+        intent = new Intent(context, IngredientWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.putExtra(context.getString(R.string.recipe_id), mRecipeId);
         intent.putExtra(context.getString(R.string.title_recipe), recipesModel);
