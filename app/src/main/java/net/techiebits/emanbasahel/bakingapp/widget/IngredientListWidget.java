@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -54,14 +55,15 @@ public class IngredientListWidget extends AppWidgetProvider {
                                   int appWidgetId,String recipeName,RecipesModel recipesModel)
     {
         intent = new Intent(context, IngredientWidgetService.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        intent.putExtra(context.getString(R.string.recipe_id), mRecipeId);
-        intent.putExtra(context.getString(R.string.title_recipe), recipesModel);
+        Bundle extrasBundle = new Bundle();
+        extrasBundle.putParcelable(context.getString(R.string.title_recipe), recipesModel);
+        extrasBundle.putInt(context.getString(R.string.recipe_id), mRecipeId);
+        extrasBundle.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.putExtra(context.getString(R.string.bundle), extrasBundle);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredient_list_widget);
         rv.setTextViewText(R.id.recipe_widget_name,recipeName);
         rv.setRemoteAdapter(R.id.list_ingredients, intent);
-        context.startService(intent);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_ingredients);
         appWidgetManager.updateAppWidget(appWidgetId, rv);
 

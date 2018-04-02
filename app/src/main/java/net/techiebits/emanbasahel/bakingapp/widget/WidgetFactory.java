@@ -3,6 +3,7 @@ package net.techiebits.emanbasahel.bakingapp.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import net.techiebits.emanbasahel.bakingapp.R;
@@ -21,10 +22,11 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     public WidgetFactory (Context context, Intent intent)
     {
         mContext=context;
-        appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+        Bundle bundle = intent.getBundleExtra(context.getString(R.string.bundle));
+        appWidgetId=bundle.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        mRecipeId=intent.getIntExtra(context.getString(R.string.recipe_id),0);
-        mRecipesModel=intent.getParcelableExtra(context.getString(R.string.title_recipe));
+        mRecipeId=bundle.getInt(context.getString(R.string.recipe_id),0);
+        mRecipesModel=bundle.getParcelable(context.getString(R.string.title_recipe));
     }
     @Override
     public void onCreate() {

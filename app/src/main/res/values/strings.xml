@@ -22,4 +22,5 @@
     <string name="item_first_text_test">Nutella Pie</string>
     <string name="seek_position">player_seek_position</string>
     <string name="noData">There\'s No Data</string>
+    <string name="bundle">bundle</string>
 </resources>

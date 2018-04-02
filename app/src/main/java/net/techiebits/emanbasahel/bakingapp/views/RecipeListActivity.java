@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,6 +16,7 @@ import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
 import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,7 +41,9 @@ public class RecipeListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private List<RecipesModel> recipesModelList;
-    View recyclerView;
+    RecyclerView recyclerView;
+    private RecipesListAdapter mAdapter;
+    LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,14 @@ public class RecipeListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-        getRecipes();
+        recipesModelList = new ArrayList<>();
         recyclerView = findViewById(R.id.recipe_list);
+        assert recyclerView != null;
+        mLinearLayoutManager= new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        mAdapter= setupRecyclerView();
+        recyclerView.setAdapter(mAdapter);
+        getRecipes();
     }
 
     //region getRecipes
@@ -69,9 +79,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<List<RecipesModel>> call, Response<List<RecipesModel>> response) {
-                recipesModelList=response.body();
-                assert recyclerView != null;
-                setupRecyclerView((RecyclerView) recyclerView);
+                recipesModelList.clear();
+                recipesModelList.addAll(response.body());
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -83,11 +93,11 @@ public class RecipeListActivity extends AppCompatActivity {
     }
     //endregion
     //region handling list of Recipes
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private RecipesListAdapter setupRecyclerView() {
 
         //endregion
 
-        recyclerView.setAdapter(new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
+        return new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(RecipesModel itemRecipe) {
                 if (mTwoPane) {
@@ -106,7 +116,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        }, recipesModelList));
+        }, recipesModelList);
     }
     //endregion
 

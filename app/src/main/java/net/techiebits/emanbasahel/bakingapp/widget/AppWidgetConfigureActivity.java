@@ -15,6 +15,7 @@ import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiClient;
 import net.techiebits.emanbasahel.bakingapp.data.webservice.ApiInterface;
 import net.techiebits.emanbasahel.bakingapp.helpers.RecipesListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,7 +28,8 @@ public class AppWidgetConfigureActivity extends Activity {
     private RecyclerView mRecyclerView;
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     final Context context = AppWidgetConfigureActivity.this;
-    private List<RecipesModel> recipesModelList;
+    private List<RecipesModel> recipesModelList = new ArrayList<>();
+    private RecipesListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,12 @@ public class AppWidgetConfigureActivity extends Activity {
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
-        getRecipes();
         mRecyclerView = findViewById(R.id.recycler_widget);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        assert mRecyclerView != null;
+        adapter = setupRecyclerView();
+        mRecyclerView.setAdapter(adapter);
+        getRecipes();
 
     }
 
@@ -63,13 +66,16 @@ public class AppWidgetConfigureActivity extends Activity {
         call.enqueue(new Callback<List<RecipesModel>>() {
 
             @Override
-            public void onResponse(Call<List<RecipesModel>> call, Response<List<RecipesModel>> response) {
-                recipesModelList=response.body();
-                setupRecyclerView((RecyclerView) mRecyclerView);
+            public void onResponse(Call<List<RecipesModel>> call,
+                                   Response<List<RecipesModel>> response) {
+                recipesModelList.clear();
+                recipesModelList.addAll(response.body());
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<RecipesModel>> call, Throwable t) {
+            public void onFailure(Call<List<RecipesModel>> call,
+                                  Throwable t) {
                 Toast.makeText(AppWidgetConfigureActivity.this, getString(R.string.noData), Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -77,11 +83,11 @@ public class AppWidgetConfigureActivity extends Activity {
     }
     //endregion
     //region handling list of Recipes
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private RecipesListAdapter setupRecyclerView() {
 
         //endregion
 
-        recyclerView.setAdapter(new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
+        return new RecipesListAdapter(new RecipesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(RecipesModel itemRecipe) {
 
@@ -99,7 +105,7 @@ public class AppWidgetConfigureActivity extends Activity {
                 finish();
 
             }
-        }, recipesModelList));
+        }, recipesModelList);
     }
     //endregion
 
