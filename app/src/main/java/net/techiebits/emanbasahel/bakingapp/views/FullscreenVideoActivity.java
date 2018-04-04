@@ -4,13 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+
 import net.techiebits.emanbasahel.bakingapp.R;
 import net.techiebits.emanbasahel.bakingapp.helpers.ExoPlayerVideoHandler;
 
@@ -88,16 +90,16 @@ public class FullscreenVideoActivity extends AppCompatActivity {
             return false;
         }
     };
+    private ExoPlayerVideoHandler expo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_video);
 
-        if (getIntent().getExtras()!=null)
-        {
-            videoURl= getIntent().getExtras().getString(getString(R.string.video_url));
-            seekPosition=getIntent().getExtras().getLong(getString(R.string.seek_position));
+        if (getIntent().getExtras() != null) {
+            videoURl = getIntent().getExtras().getString(getString(R.string.video_url));
+            seekPosition = getIntent().getExtras().getLong(getString(R.string.seek_position));
         }
         exoPlayerView = findViewById(R.id.exoplayer_video);
         mVisible = true;
@@ -166,32 +168,39 @@ public class FullscreenVideoActivity extends AppCompatActivity {
 
     //region Activity Lisfecycle
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        ExoPlayerVideoHandler.getInstance().prepareExoPlayerForUri(this,Uri.parse(videoURl),exoPlayerView,seekPosition);
+        ExoPlayerVideoHandler.getInstance()
+                .prepareExoPlayerForUri(getApplicationContext(),
+                        Uri.parse(videoURl), exoPlayerView, seekPosition);
+        ExoPlayerVideoHandler.getInstance().goToForeground();
+
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+        ExoPlayerVideoHandler.getInstance().goToBackground();
     }
+
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
-        ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+        ExoPlayerVideoHandler.getInstance().goToBackground();
+
     }
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        if(destroyVideo){
+        if (destroyVideo) {
             ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
+
         }
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         destroyVideo = false;
         finish();
         super.onBackPressed();
@@ -202,15 +211,15 @@ public class FullscreenVideoActivity extends AppCompatActivity {
     //region to detect screen rotation and exit full screen when it's ORIENTATION_PORTRAIT
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             destroyVideo = false;
-            ExoPlayerVideoHandler.getInstance().releaseVideoPlayer();
-            long seekPosition=ExoPlayerVideoHandler.getInstance().getResumePosition();
-            setResult(RESULT_OK,new Intent().putExtra(getString(R.string.seek_position),seekPosition));
+            ExoPlayerVideoHandler.getInstance().goToBackground();
+            setResult(RESULT_OK, new Intent().putExtra(getString(R.string.seek_position),
+                    ExoPlayerVideoHandler.getInstance().getResumePosition()));
             finish();
         }
+        super.onConfigurationChanged(newConfig);
+
     }
     //endregion
 }
