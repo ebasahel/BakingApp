@@ -2,12 +2,10 @@ package net.techiebits.emanbasahel.bakingapp.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import net.techiebits.emanbasahel.bakingapp.R;
@@ -23,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static junit.framework.Assert.assertEquals;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -119,6 +116,7 @@ public class RecipeListActivity extends AppCompatActivity {
         }, recipesModelList);
     }
     //endregion
+
 
 
 
